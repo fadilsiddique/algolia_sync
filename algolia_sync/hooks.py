@@ -80,11 +80,17 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 doc_events = {
+    #   "Sales Invoice":{
+    #       "before_submit":["algolia_sync.unpaid.unpaid_amt"]
+    #   }
     "Item":{
         "after_insert":["algolia_sync.algolia.send_algolia"],
         "on_trash":["algolia_sync.algolia.delete_object"],
         "on_update":["algolia_sync.algolia.update_object","algolia_sync.algolia.show_website"]
     }
+    # "*":{
+    #     "on_update":["algolia_sync.coupon.apply_coupon_code"]
+    # }
 }
 
 #frappe.throw ("success1")
