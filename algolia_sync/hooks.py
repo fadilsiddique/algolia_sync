@@ -88,11 +88,11 @@ doc_events = {
        # "before_save":["algolia_sync.algolia.show_website"],
         "on_trash":["algolia_sync.algolia.delete_object"],
         "on_update":["algolia_sync.algolia.update_object",
-                    "algolia_sync.algolia.show_website"]
-        }
-    #"Website Item":{
+                  "algolia_sync.algolia.show_website"]
+    }
+    # "Website Item":{
     #    "on_update":["algolia_sync.algolia.show_website"]
-  #  }
+#    }
     # "*":{
     #     "on_update":["algolia_sync.coupon.apply_coupon_code"]
     # }
