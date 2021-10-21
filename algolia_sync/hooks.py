@@ -85,26 +85,29 @@ doc_events = {
     #   }
     "Item":{
         "after_insert":["algolia_sync.algolia.send_algolia"],
-       # "before_save":["algolia_sync.algolia.show_website"],
+        # "after_save":["algolia_sync.algolia.show_website"],
         "on_trash":["algolia_sync.algolia.delete_object"],
         "on_update":["algolia_sync.algolia.update_object",
-                  "algolia_sync.algolia.show_website"]
-    }
-    # "Website Item":{
-    #    "on_update":["algolia_sync.algolia.show_website"]
+                   "algolia_sync.algolia.show_website"]
+    },
+    
+    "Website Item":{
+        "on_update":["algolia_sync.algolia.website_item"]
 #    }
     # "*":{
     #     "on_update":["algolia_sync.coupon.apply_coupon_code"]
     # }
 }
+}
+# }
 
 #frappe.throw ("success1")
 # doc_events = {
-# 	"*": {
-# 		"on_update": "method",
+#  	"User": {
+# 		"after_save": "algolia_sync.user_key.key_generator"
 # 		"on_cancel": "method",
 # 		"on_trash": "method"
-#	}
+# 	}
 # }
 
 # Scheduled Tasks
