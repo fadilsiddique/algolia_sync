@@ -2,7 +2,7 @@ from algoliasearch.search_client import SearchClient
 import frappe 
 import json
 
-client = SearchClient.create('TUSTIQK4HH','839810f33bf0de70eb1006a0f474b931')
+client = SearchClient.create('8AF7KWVKMG','ea7e8bb31e90edadcd63df48fc239f20')
 index = client.init_index('dev_item')
 
 def send_algolia(doc,event):
@@ -14,7 +14,8 @@ def send_algolia(doc,event):
         value_list.append(i.attribute_value)
     image2 = items.website_image_2
     image3 = items.website_image_3
-    records = {"item":items.item_name,"item_code":items.item_code,"item_group":items.item_group,"Description":items.description,"Item_price":items.standard_rate,"Image URL":[items.image,image2,image3],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]}
+    date = items.creation
+    records = {"item":items.item_name,"item_code":items.item_code,"item_group":items.item_group,"Description":items.description,"Item_price":items.standard_rate,"Image URL":[items.image,image2,image3],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]}
     send = index.save_object(records,  {'autoGenerateObjectIDIfNotExist': True})
     
     for ids in send:
@@ -34,7 +35,7 @@ def delete_object(doc,event):
 def update_object(doc,event):
 
     item_doc = frappe.get_doc('Item',doc.name)
-    
+    date = item_doc.creation
     attribute_list=[]
     value_list=[]
     for i in item_doc.attributes:
@@ -50,7 +51,7 @@ def update_object(doc,event):
     image3 = item_doc.website_image_3
     description = item_doc.description
 
-    update_object = index.partial_update_object({"objectID":algolia_id,"item":item_name,"item_code":item_code,"item_group":item_group,"Description":description,"item_price":item_price,"Image URL":[item_doc.image,image2,image3],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]},{'createIfNotExists':False})
+    update_object = index.partial_update_object({"objectID":algolia_id,"item":item_name,"item_code":item_code,"item_group":item_group,"Description":description,"item_price":item_price,"Image URL":[item_doc.image,image2,image3],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]},{'createIfNotExists':False})
     
 def show_website(doc,event):
     item_doc = frappe.get_doc('Item',doc.name)
@@ -58,6 +59,7 @@ def show_website(doc,event):
     algolia_id = item_doc.algolia_id
     image2 = item_doc.website_image_2
     image3 = item_doc.website_image_3
+    date = item_doc.creation
     attribute_list=[]
     value_list=[]
     for i in item_doc.attributes:
@@ -65,7 +67,7 @@ def show_website(doc,event):
         value_list.append(i.attribute_value)
 
     
-    records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":item_doc.standard_rate,"Image URL":[item_doc.image,image2,image3],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]}
+    records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":item_doc.standard_rate,"Image URL":[item_doc.image,image2,image3],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]}
     send = index.save_object(records)
   
 
@@ -78,14 +80,14 @@ def website_item(doc,event):
     algolia_id = item_doc.algolia_id
     image2 = item_doc.website_image_2
     image3 = item_doc.website_image_3
-
+    date = item_doc.creation
     attribute_list=[]
     value_list=[]
     for i in item_doc.attributes:
         attribute_list.append(i.attribute)
         value_list.append(i.attribute_value)
 
-    records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":item_doc.standard_rate,"Image URL":[item_doc.image,image2,image3],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]}
+    records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":item_doc.standard_rate,"Image URL":[item_doc.image,image2,image3],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]}
    
    
     if web.published == 0:
