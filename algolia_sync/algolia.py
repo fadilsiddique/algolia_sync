@@ -49,7 +49,7 @@ def update_object(doc,event):
     image4 = item_doc.website_image_4
     description = item_doc.description
 
-    update_object = index.partial_update_object({"objectID":algolia_id,"item":item_name,"item_code":item_code,"item_group":item_group,"Description":description,"item_price":price.price_list_rate,"Image URL":[item_doc.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]},{'createIfNotExists':False})
+    update_object = index.partial_update_object({"objectID":algolia_id,"item":item_name,"item_code":item_code,"item_group":item_group,"Description":description,"item_price":item_doc.standard_rate,"Image URL":[item_doc.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]},{'createIfNotExists':False})
     
 def show_website(doc,event):
     item_doc = frappe.get_doc('Item',doc.name)
@@ -64,7 +64,7 @@ def show_website(doc,event):
     for i in item_doc.attributes:
         attribute_list.append(i.attribute)
         value_list.append(i.attribute_value)
-    records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":price.price_list_rate,"Image URL":[item_doc.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]}
+    records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":item_doc.standard_rate,"Image URL":[item_doc.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]}
     send = index.save_object(records)
   
 
@@ -94,5 +94,15 @@ def website_item(doc,event):
 def price(doc,event):
     price = frappe.get_doc('Item Price',doc.name)
     item_doc = frappe.get_doc('Item',price.item_code)
-    partial_update_object =index.partial_update_object({"objectID":item_doc.algolia_id,"item_price":price.price_list_rate})
+    algolia_id = item_doc.algolia_id
+    image2 = item_doc.website_image_2
+    image3 = item_doc.website_image_3
+    image4 = item_doc.website_image_4
+    date = item_doc.creation
+    attribute_list=[]
+    value_list=[]
+    for i in item_doc.attributes:
+        attribute_list.append(i.attribute)
+        value_list.append(i.attribute_value)
+    partial_update_object =index.partial_update_object({"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":price.price_list_rate,"Image URL":[item_doc.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]})
     
