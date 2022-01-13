@@ -97,10 +97,10 @@ doc_events = {
     # "*":{
     #     "on_update":["algolia_sync.coupon.apply_coupon_code"]
     # }
-},
-    "Item Price":{
-        "on_update":["algolia_sync.algolia.price"]
-    }
+}
+    # "Item Price":{
+    #     "on_update":["algolia_sync.algolia.price"]
+    # }
 # }
 }
 
