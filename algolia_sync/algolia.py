@@ -75,6 +75,7 @@ def show_website(doc,event):
 def website_item(doc,event):
     web = frappe.get_doc('Website Item',doc.name)
     item_doc = frappe.get_doc('Item',web.item_code)
+    
     algolia_id = item_doc.algolia_id
     price = frappe.get_doc('Item Price',item_doc.name)
     rate = price.price_list_rate
@@ -87,8 +88,7 @@ def website_item(doc,event):
     for i in item_doc.attributes:
         attribute_list.append(i.attribute)
         value_list.append(i.attribute_value)
-    for i in item_doc.item_defaults:
-        warehouse_item = i.default_warehouse
+
     records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,"Image URL":[item_doc.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2]}
    
    
@@ -97,4 +97,5 @@ def website_item(doc,event):
         
     else:
        send = index.save_object(records)
-    
+
+
