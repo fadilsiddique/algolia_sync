@@ -1,0 +1,63 @@
+{
+ "actions": [],
+ "autoname": "REV.#####",
+ "creation": "2021-10-13 16:34:49.649492",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "review",
+  "image",
+  "name1",
+  "designation"
+ ],
+ "fields": [
+  {
+   "fieldname": "review",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Review",
+   "reqd": 1
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Image"
+  },
+  {
+   "fetch_from": "first_name",
+   "fieldname": "name1",
+   "fieldtype": "Data",
+   "label": "Name"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Data",
+   "label": "Designation"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-04-20 09:28:31.291243",
+ "modified_by": "Administrator",
+ "module": "Algolia Sync",
+ "name": "Review",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
