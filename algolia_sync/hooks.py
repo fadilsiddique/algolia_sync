@@ -130,6 +130,8 @@ doc_events = {
 # 	]
 # }
 
+fixtures = ["Custom Field"]
+
 # Testing
 # -------
 
