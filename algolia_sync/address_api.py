@@ -4,7 +4,7 @@ import requests
 
 
 
-@frappe.whitelist(allow_guest=True)
+@frappe.whitelist()
 def address(email):
-    address = frappe.db.get_all("Address",filters={"owner":email},fields=["address_title","address_line1","address_line2","city","state","country","pincode","phone"])
+    address = frappe.db.get_all("Address",filters={"owner":email},fields=["name","address_title","address_line1","address_line2","city","state","country","pincode","phone"])
     return address
