@@ -18,7 +18,7 @@ def send_algolia(doc,event):
     image3 = items.website_image_3
     image4 = items.website_image_4
     date = items.creation
-    records = {"item":items.item_name,"item_code":items.item_code,"item_group":items.item_group,"Description":items.description,"Item_price":rate,"Image URL":[items.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"tags":items.best_seller}
+    records = {"item":items.item_name,"item_code":items.item_code,"item_group":items.item_group,"Description":items.description,"Item_price":rate,"Image URL":[items.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":items.best_seller}
     send = index.save_object(records,  {'autoGenerateObjectIDIfNotExist': True})
     
     for ids in send:
@@ -53,7 +53,7 @@ def update_object(doc,event):
     description = item_doc.description
     Bestseller = item_doc.best_seller
 
-    update_object = index.partial_update_object({"objectID":algolia_id,"item":item_name,"item_code":item_code,"item_group":item_group,"Description":description,"item_price":rate,"Image URL":[item_doc.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"tags":Bestseller},{'createIfNotExists':False})
+    update_object = index.partial_update_object({"objectID":algolia_id,"item":item_name,"item_code":item_code,"item_group":item_group,"Description":description,"item_price":rate,"Image URL":[item_doc.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller},{'createIfNotExists':False})
     
 def show_website(doc,event):
     item_doc = frappe.get_doc('Item',doc.name)
@@ -70,7 +70,7 @@ def show_website(doc,event):
     for i in item_doc.attributes:
         attribute_list.append(i.attribute)
         value_list.append(i.attribute_value)
-    records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,"Image URL":[item_doc.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"tags":Bestseller}
+    records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,"Image URL":[item_doc.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller}
     send = index.save_object(records)
   
 
@@ -92,7 +92,7 @@ def website_item(doc,event):
         attribute_list.append(i.attribute)
         value_list.append(i.attribute_value)
 
-    records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,"Image URL":[item_doc.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"tags":Bestseller}
+    records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,"Image URL":[item_doc.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller}
    
    
     if web.published == 0:
