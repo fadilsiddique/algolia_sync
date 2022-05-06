@@ -14,3 +14,8 @@ def address(email):
 def ItemFilter(item_code):
     Items = frappe.db.get_all("Item",filters = {"item_code":item_code},fields=["image"])
     return Items
+
+@frappe.whitelist()
+def Order(name):
+    sales = frappe.db.get_all("Sales Invoice",filters = { "name":name})
+    return sales
