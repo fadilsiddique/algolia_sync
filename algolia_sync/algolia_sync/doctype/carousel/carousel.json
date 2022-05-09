@@ -1,7 +1,7 @@
 {
  "actions": [],
- "autoname": "CAR.#####",
- "creation": "2021-10-13 14:39:40.893446",
+ "allow_rename": 1,
+ "creation": "2022-05-09 15:25:13.425148",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -16,8 +16,10 @@
   }
  ],
  "index_web_pages_for_search": 1,
+ "issingle": 1,
  "links": [],
- "modified": "2022-04-20 09:28:06.905422",
+ "max_attachments": 5,
+ "modified": "2022-05-09 15:25:13.425148",
  "modified_by": "Administrator",
  "module": "Algolia Sync",
  "name": "Carousel",
@@ -27,10 +29,8 @@
    "create": 1,
    "delete": 1,
    "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
-   "report": 1,
    "role": "System Manager",
    "share": 1,
    "write": 1
