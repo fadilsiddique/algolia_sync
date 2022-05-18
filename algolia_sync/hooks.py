@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from . import __version__ as app_version
-import frappe #type:ignore
+
 
 app_name = "algolia_sync"
 app_title = "Algolia Sync"
