@@ -22,11 +22,13 @@ def send_algolia(doc,event):
     if items.has_variants == 0:
         records = {"item":items.item_name,"item_code":items.item_code,"item_group":items.item_group,"Description":items.description,"Item_price":rate,"Image URL":[items.image,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":items.best_seller}
         send = index.save_object(records,  {'autoGenerateObjectIDIfNotExist': True})
-    
+       
         for ids in send:
-
             obj_id = ids["objectIDs"]
-            update = frappe.db.set_value('Item',doc.name,'algolia_id', obj_id)
+
+            for algo_id in obj_id:
+                update = frappe.db.set_value('Item',doc.name,'algolia_id', algo_id )
+            
         
 
 def delete_object(doc,event):
