@@ -1,7 +1,3 @@
 ## Algolia Sync
 
-Search
-
-#### License
-
-MIT
+Ecommerce website made with frappe framework and ERPnext . Search engine used is ALGOLIA

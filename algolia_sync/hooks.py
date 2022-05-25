@@ -93,11 +93,10 @@ doc_events = {
     
     "Website Item":{
         "on_update":["algolia_sync.algolia.website_item"]
-#    }
-    # "*":{
-    #     "on_update":["algolia_sync.coupon.apply_coupon_code"]
-    # }
-}
+        },
+    "Item Price":{
+        "on_update":["algolia_sync.algolia.priceChange"]
+    }
 }
 
 #frappe.throw ("success1")
