@@ -16,7 +16,7 @@ def ItemFilter(item_code):
     return Items
 
 
-# @frappe.whitelist()
-# def Order(name):
+# @frappe.whitelist()  
+# def Order(name):                        #defining function to get orders
 #     sales = frappe.db.get_all("Sales Invoice",filters = { "name":name})
 #     return sales
