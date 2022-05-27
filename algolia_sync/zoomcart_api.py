@@ -16,7 +16,16 @@ def ItemFilter(item_code):
     return Items
 
 
-# @frappe.whitelist()  
-# def Order(name):                        #defining function to get orders
-#     sales = frappe.db.get_all("Sales Invoice",filters = { "name":name})
-#     return sales
+# @frappe.whitelist()
+# def emailSend():
+#     doc=frappe.get_doc('Sales Invoice','SINV-22-00003')
+#     # return doc.contact_email
+#     email_args={
+#         "recipients":doc.contact_email,
+#         "message":"Please see your invoice",
+#         "subject":"Sales Invoice",
+#         "attachments":[frappe.attach_print(doc.doctype,doc.name,file_name=doc.name)],
+#         "reference_doctype":doc.doctype,
+#         "reference_name":doc.name
+#     }
+#     frappe.sendmail(**email_args,delayed=False)
