@@ -12,7 +12,7 @@ def address(email):
 
 @frappe.whitelist()
 def ItemFilter(item_code):
-    Items = frappe.db.get_all("Item",filters = {"item_code":item_code},fields=["image"])
+    Items = frappe.db.get_all("Item",filters = {"item_code":item_code},fields=["website_image_1"])
     return Items
 
 
