@@ -29,6 +29,7 @@ def send_algolia(doc,event):
 
             for algo_id in obj_id:
                 update = frappe.db.set_value('Item',doc.name,'algolia_id', algo_id )
+                # frappe.throw(_("Click Publish in Website button "))
             
         
 
@@ -60,7 +61,10 @@ def update_object(doc,event):
     Bestseller = item_doc.best_seller
 
     if item_doc.has_variants == 0:
-        update_object = index.partial_update_object({"objectID":algolia_id,"item":item_name,"item_code":item_code,"item_group":item_group,"Description":description,"item_price":rate,"Image URL":[image1,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller},{'createIfNotExists':False})
+        web = frappe.db.get_all('Website Item',filters={"web_item_name":item_doc.item_name},fields={"published"})
+        for pub in web:
+            if pub["published"] == 1:
+                update_object = index.partial_update_object({"objectID":algolia_id,"item":item_name,"item_code":item_code,"item_group":item_group,"Description":description,"item_price":rate,"Image URL":[image1,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller},{'createIfNotExists':False})
     
 def show_website(doc,event):
     item_doc = frappe.get_doc('Item',doc.name)
@@ -79,8 +83,11 @@ def show_website(doc,event):
         attribute_list.append(i.attribute)
         value_list.append(i.attribute_value)
     if item_doc.has_variants == 0:
-        records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,"Image URL":[image1,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller}
-        send = index.save_object(records)
+        web = frappe.db.get_all('Website Item',filters={"web_item_name":item_doc.item_name},fields={"published"})
+        for pub in web:
+            if pub["published"] == 1:
+                records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,"Image URL":[image1,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller}
+                send = index.save_object(records)
   
 
 def website_item(doc,event):

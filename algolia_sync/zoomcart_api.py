@@ -16,16 +16,28 @@ def ItemFilter(item_code):
     return Items
 
 
-# @frappe.whitelist()
-# def emailSend():
-#     doc=frappe.get_doc('Sales Invoice','SINV-22-00003')
-#     # return doc.contact_email
-#     email_args={
-#         "recipients":doc.contact_email,
-#         "message":"Please see your invoice",
-#         "subject":"Sales Invoice",
-#         "attachments":[frappe.attach_print(doc.doctype,doc.name,file_name=doc.name)],
-#         "reference_doctype":doc.doctype,
-#         "reference_name":doc.name
-#     }
-#     frappe.sendmail(**email_args,delayed=False)
+@frappe.whitelist()
+def order():
+    user = frappe.session.user
+    order_item = []
+    so = frappe.db.get_all("Sales Order",filters = {"contact_email":user},fields=["order_status","name","transaction_date","delivery_date"])
+    for i in so:
+        sales_order = frappe.get_doc("Sales Order",i["name"])
+        for item in sales_order.items:
+            order_item.append({"Item_name":item.item_name,"item_code":item.item_code,"qty":item.qty,"order_status":i["order_status"],"transaction_date":i["transaction_date"],\
+            "delivery_date":i["delivery_date"],"id":i["name"]})            
+    return order_item
+
+@frappe.whitelist()
+def orderhistory():
+    user = frappe.session.user
+    sales_item = []
+    item_list = []
+    so = frappe.db.get_all("Sales Order",filters={"contact_email":user},fields=["name"])
+    for i in so:
+        sales_order = frappe.get_doc("Sales Order",i["name"])
+        for item in sales_order.items:
+            item_list.append({"item_name":item.item_name,"item_code":item.item_code,"Quantity":item.qty})
+        sales_item.append({"sales_invoice_name":i["name"],"item_list":item_list})
+        item_list = []
+    return sales_item

@@ -129,7 +129,7 @@ doc_events = {
 # 	]
 # }
 
-fixtures = ["Custom Field","Print Format"]
+fixtures = ["Custom Field","Print Format","Client Script"]
 
 # Testing
 # -------
