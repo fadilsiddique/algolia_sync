@@ -61,7 +61,7 @@ def update_object(doc,event):
     Bestseller = item_doc.best_seller
 
     if item_doc.has_variants == 0:
-        web = frappe.db.get_all('Website Item',filters={"web_item_name":item_doc.item_name},fields={"published"})
+        web = frappe.db.get_all('Website Item',filters={"item_name":item_doc.item_name},fields={"published"})
         for pub in web:
             if pub["published"] == 1:
                 update_object = index.partial_update_object({"objectID":algolia_id,"item":item_name,"item_code":item_code,"item_group":item_group,"Description":description,"item_price":rate,"Image URL":[image1,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller},{'createIfNotExists':False})
@@ -124,7 +124,7 @@ def priceChange(doc,event):
        
     price = frappe.get_doc('Item Price',doc.name)
     item_doc = frappe.get_doc('Item',price.name)
-    web = frappe.db.get_all('Website Item',filters={"web_item_name":item_doc.item_name},fields={"published"})
+    web = frappe.db.get_all('Website Item',filters={"item_code":item_doc.item_code},fields={"published"})
     
     algolia_id = item_doc.algolia_id
     price = frappe.get_doc('Item Price',item_doc.name)
@@ -148,3 +148,19 @@ def priceChange(doc,event):
                 send = index.save_object(records)
                 
 
+# def updatewebsite(doc,event):
+#     # web = frappe.get_doc('Website Item',doc.name)
+#     # frappe.throw(frappe.as_json(web))
+#     item_doc = frappe.get_doc('Item',doc.name)
+    
+#     # if item_doc.published_in_website:
+#     #     algo_id = item_doc.algolia_id 
+#     web = frappe.db.get_all('Website Item',filters={"algolia_id":algolia_id },fields={"name"})
+#     for i in web:
+#         web_update  = frappe.get_doc("Website Item",i["name"])
+#         web_update.web_item_name = item_doc.item_name 
+        
+#     web_update.save()
+
+        # frappe.throw(frappe.as_json(web))
+    # web = frappe.db.get_all('Website Item',filters={"web_item_name":item_doc.item_name},fields={"item_name","item_code"})
