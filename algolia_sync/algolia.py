@@ -18,10 +18,11 @@ def send_algolia(doc,event):
     image2 = items.website_image_2
     image3 = items.website_image_3
     image4 = items.website_image_4
-    date = items.creation
+    
 
     if items.has_variants == 0:
-        records = {"item":items.item_name,"item_code":items.item_code,"item_group":items.item_group,"Description":items.description,"Item_price":rate,"Image URL":[image1,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":items.best_seller}
+        records = {"item":items.item_name,"item_code":items.item_code,"item_group":items.item_group,"Description":items.description,"Item_price":rate,"Image URL":[image1,image2,image3,image4],\
+        attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":items.best_seller}
         send = index.save_object(records,  {'autoGenerateObjectIDIfNotExist': True})
        
         for ids in send:
@@ -29,7 +30,6 @@ def send_algolia(doc,event):
 
             for algo_id in obj_id:
                 update = frappe.db.set_value('Item',doc.name,'algolia_id', algo_id )
-                # frappe.throw(_("Click Publish in Website button "))
             
         
 
@@ -42,7 +42,6 @@ def update_object(doc,event):
     item_doc = frappe.get_doc('Item',doc.name)
     price = frappe.get_doc('Item Price',item_doc.name)
     rate= price.price_list_rate
-    date = item_doc.creation
     attribute_list=[]
     value_list=[]
     for i in item_doc.attributes:
@@ -64,7 +63,8 @@ def update_object(doc,event):
         web = frappe.db.get_all('Website Item',filters={"item_name":item_doc.item_name},fields={"published"})
         for pub in web:
             if pub["published"] == 1:
-                update_object = index.partial_update_object({"objectID":algolia_id,"item":item_name,"item_code":item_code,"item_group":item_group,"Description":description,"item_price":rate,"Image URL":[image1,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller},{'createIfNotExists':False})
+                update_object = index.partial_update_object({"objectID":algolia_id,"item":item_name,"item_code":item_code,"item_group":item_group,"Description":description,"item_price":rate,\
+                "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller},{'createIfNotExists':False})
     
 # def show_website(doc,event):
 #     item_doc = frappe.get_doc('Item',doc.name)
@@ -75,7 +75,6 @@ def update_object(doc,event):
 #     image2 = item_doc.website_image_2
 #     image3 = item_doc.website_image_3
 #     image4 = item_doc.website_image_4
-#     date = item_doc.creation
 #     Bestseller = item_doc.best_seller
 #     attribute_list=[]
 #     value_list=[]
@@ -86,7 +85,8 @@ def update_object(doc,event):
 #         web = frappe.db.get_all('Website Item',filters={"web_item_name":item_doc.item_name},fields={"published"})
 #         for pub in web:
 #             if pub["published"] == 1:
-#                 records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,"Image URL":[image1,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller}
+#                 records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,\
+#                   "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller}
 #                 send = index.save_object(records)
   
 
@@ -101,7 +101,6 @@ def website_item(doc,event):
     image2 = item_doc.website_image_2
     image3 = item_doc.website_image_3
     image4 = item_doc.website_image_4
-    date = item_doc.creation
     Bestseller = item_doc.best_seller
     attribute_list=[]
     value_list=[]
@@ -110,7 +109,8 @@ def website_item(doc,event):
         value_list.append(i.attribute_value)
 
     if item_doc.has_variants == 0:
-        records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,"Image URL":[image1,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller}
+        records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,\
+        "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller}
    
    
         if web.published == 0:
@@ -133,7 +133,6 @@ def priceChange(doc,event):
     image2 = item_doc.website_image_2
     image3 = item_doc.website_image_3
     image4 = item_doc.website_image_4
-    date = item_doc.creation
     Bestseller = item_doc.best_seller
     attribute_list=[]
     value_list=[]
@@ -142,25 +141,9 @@ def priceChange(doc,event):
         value_list.append(i.attribute_value)
     
     if item_doc.has_variants == 0:
-        records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,"Image URL":[image1,image2,image3,image4],"Date":date,attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller}
+        records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,\
+        "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller}
         for pub in web:
             if pub["published"] == 1:
                 send = index.save_object(records)
                 
-
-# def updatewebsite(doc,event):
-#     # web = frappe.get_doc('Website Item',doc.name)
-#     # frappe.throw(frappe.as_json(web))
-#     item_doc = frappe.get_doc('Item',doc.name)
-    
-#     # if item_doc.published_in_website:
-#     #     algo_id = item_doc.algolia_id 
-#     web = frappe.db.get_all('Website Item',filters={"algolia_id":algolia_id },fields={"name"})
-#     for i in web:
-#         web_update  = frappe.get_doc("Website Item",i["name"])
-#         web_update.web_item_name = item_doc.item_name 
-        
-#     web_update.save()
-
-        # frappe.throw(frappe.as_json(web))
-    # web = frappe.db.get_all('Website Item',filters={"web_item_name":item_doc.item_name},fields={"item_name","item_code"})
