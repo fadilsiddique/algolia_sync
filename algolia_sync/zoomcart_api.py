@@ -27,9 +27,11 @@ def order():
     for i in so:
         sales_order = frappe.get_doc("Sales Order",i["name"])
         for item in sales_order.items:
-            order_item.append({"Item_name":item.item_name,"item_code":item.item_code,"qty":item.qty,"price":item.amount,"order_status":i["order_status"],\
+            imageItem = frappe.get_doc('Item',item.item_code)
+            order_item.append({"Item_name":item.item_name,"item_code":item.item_code,"qty":item.qty,"price":item.amount,"Image":imageItem.website_image_1,"order_status":i["order_status"],\
             "transaction_date":i["transaction_date"],\
             "delivery_date":i["delivery_date"],"id":i["name"]})     
+
         sales_item.append({"sales_invoice_name":i["name"],"Grand Total":i["grand_total"],"Tax":i["total_taxes_and_charges"],"Response":order_item})
         order_item = []
 
