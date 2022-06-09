@@ -46,7 +46,8 @@ def orderhistory():
     for i in so:
         sales_order = frappe.get_doc("Sales Order",i["name"])
         for item in sales_order.items:
-            item_list.append({"item_name":item.item_name,"price":item.amount,"item_code":item.item_code,"Quantity":item.qty})
+            imageItem = frappe.get_doc('Item',item.item_code)
+            item_list.append({"item_name":item.item_name,"price":item.amount,"item_code":item.item_code,"Quantity":item.qty,"Image":imageItem.website_image_1})
         sales_item.append({"sales_invoice_name":i["name"],"item_list":item_list})
         item_list = []
     return sales_item
