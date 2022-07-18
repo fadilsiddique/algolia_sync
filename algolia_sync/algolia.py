@@ -35,8 +35,9 @@ def send_algolia(doc,event):
 
 def delete_object(doc,event):
     item_doc = frappe.get_doc('Item',doc.name)
-    algolia_id = item_doc.algolia_id
-    del_object = index.delete_object(algolia_id)
+    if item_doc.has_variants == 0:
+        algolia_id = item_doc.algolia_id
+        del_object = index.delete_object(algolia_id)
 
 def update_object(doc,event):
     item_doc = frappe.get_doc('Item',doc.name)
