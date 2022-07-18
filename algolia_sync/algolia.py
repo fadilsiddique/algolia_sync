@@ -22,7 +22,7 @@ def send_algolia(doc,event):
 
     if items.has_variants == 0:
         records = {"item":items.item_name,"item_code":items.item_code,"item_group":items.item_group,"Description":items.description,"Item_price":rate,"Image URL":[image1,image2,image3,image4],\
-        attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":items.best_seller}
+        attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2], attribute_list[3]:value_list[3] ,"_tags":items.best_seller}
         send = index.save_object(records,  {'autoGenerateObjectIDIfNotExist': True})
        
         for ids in send:
@@ -65,7 +65,7 @@ def update_object(doc,event):
         for pub in web:
             if pub["published"] == 1:
                 update_object = index.partial_update_object({"objectID":algolia_id,"item":item_name,"item_code":item_code,"item_group":item_group,"Description":description,"item_price":rate,\
-                "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller},{'createIfNotExists':False})
+                "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller},{'createIfNotExists':False})
     
 # def show_website(doc,event):
 #     item_doc = frappe.get_doc('Item',doc.name)
@@ -111,7 +111,7 @@ def website_item(doc,event):
 
     if item_doc.has_variants == 0:
         records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,\
-        "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller}
+        "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller}
    
    
         if web.published == 0:
@@ -143,7 +143,7 @@ def priceChange(doc,event):
     
     if item_doc.has_variants == 0:
         records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,\
-        "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],"_tags":Bestseller}
+        "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller}
         for pub in web:
             if pub["published"] == 1:
                 send = index.save_object(records)
