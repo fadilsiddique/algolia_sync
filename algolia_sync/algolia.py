@@ -144,7 +144,9 @@ def priceChange(doc,event):
     if item_doc.has_variants == 0:
         records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,\
         "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller}
+        
         for pub in web:
+            
             if pub["published"] == 1:
                 send = index.save_object(records)
                 
