@@ -7,9 +7,16 @@ import requests
 @frappe.whitelist()
 def address(email):
     address = frappe.db.get_all("Address",filters={"owner":email,"disabled":0},fields=["name","address_title","disabled",\
-    "address_line1","address_line2","city","state","country","pincode","phone","links"])
-    return address
+    "address_line1","address_line2","city","state","country","pincode","phone"])
+
+    doc=frappe.get_doc("Address",address[0]['name'])
+
+    for i in doc.links:
+        link_name=i.link_name
+
+        return address, link_name
         # return address
+    return address, link_name
 
 @frappe.whitelist()
 def ItemFilter(item_code):
