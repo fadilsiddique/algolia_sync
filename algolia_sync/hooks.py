@@ -84,13 +84,15 @@ doc_events = {
     #       "before_submit":["algolia_sync.unpaid.unpaid_amt"]
     #   }
     "Item":{
-        "after_insert":["algolia_sync.algolia.send_algolia"],
+        # "after_insert":["algolia_sync.algolia.send_algolia"],
         # "after_save":["algolia_sync.algolia.show_website"],
-        "on_trash":["algolia_sync.algolia.delete_object"],
+        # "on_trash":["algolia_sync.algolia.delete_object"],
         "on_update":["algolia_sync.algolia.update_object"]
     },
     
     "Website Item":{
+        "after_insert":["algolia_sync.algolia.send_algolia_item"] ,
+        "on_trash":["algolia_sync.algolia.delete_object"] ,
         "on_update":["algolia_sync.algolia.website_item"]
         },
     "Item Price":{
