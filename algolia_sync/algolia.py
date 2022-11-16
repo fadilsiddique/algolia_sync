@@ -2,7 +2,7 @@ from algoliasearch.search_client import SearchClient
 import frappe 
 import json
 
-client = SearchClient.create('NAH884LD6O','49229124bf7bc9a143f3eb25598dbcd8')
+client = SearchClient.create('NAH884LD6O','155ad86e58cb50ae7eefab00df3bc15d')
 index = client.init_index('zoomcartlive')
 
 # client = SearchClient.create('8AF7KWVKMG','ea7e8bb31e90edadcd63df48fc239f20')
