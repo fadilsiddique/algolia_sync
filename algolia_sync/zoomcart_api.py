@@ -52,9 +52,55 @@ def orderhistory():
     so = frappe.db.get_all("Sales Order",filters={"contact_email":user},fields=["name"])
     for i in so:
         sales_order = frappe.get_doc("Sales Order",i["name"])
+
         for item in sales_order.items:
             imageItem = frappe.get_doc('Item',item.item_code)
-            item_list.append({"item_name":item.item_name,"price":item.amount,"item_code":item.item_code,"Quantity":item.qty,"Image":imageItem.website_image_1})
+            item_list.append({"item_name":item.item_name,"price":item.amount,"item_code":item.item_code,\
+            "Quantity":item.qty,"Image":imageItem.website_image_1})
+            
         sales_item.append({"sales_invoice_name":i["name"],"item_list":item_list})
         item_list = []
     return sales_item
+
+@frappe.whitelist()
+def latest_items():
+    attribute_list = []
+    price_list = []
+    web_item = frappe.db.get_all('Website Item',
+                                                filters={'has_variants':0},
+                                                fields={
+                                                    'item_code'
+                                                    },
+                                                order_by="creation desc",
+                                                limit_start=0, 
+                                                limit_page_length= 8
+                                )
+    for web in web_item:
+        items = frappe.db.get_list('Item',
+                filters={
+                    'item_code':web["item_code"] ,
+                    'has_variants':0
+                    },
+            
+                fields=["item_code",'item_name','creation','website_image_1','website_image_2','website_image_3','website_image_4','best_seller'])
+        
+
+        price = frappe.get_doc('Item Price',web.item_code)
+        attribute_list.append({"Item Details" :items,"Price":price.price_list_rate})
+
+    # items_list.append({"Items":attribute_list})
+    return attribute_list
+
+@frappe.whitelist()
+def Featured():
+    Items = frappe.db.get_all("Item",filters = {"featured_item_":1},fields=["item_name" , "item_code"])
+    return Items
+
+
+@frappe.whitelist()
+def Categories():
+    attributes = frappe.db.get_list('Item Attribute',filters={"name":"Category"},fields=["*"])
+    for i in attributes:
+        cat = frappe.get_doc('Item Attribute',i["name"])
+        return cat.item_attribute_values
+    # return attributes

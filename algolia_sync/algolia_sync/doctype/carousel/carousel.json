@@ -19,7 +19,7 @@
  "issingle": 1,
  "links": [],
  "max_attachments": 5,
- "modified": "2022-05-09 15:25:13.425148",
+ "modified": "2022-12-08 15:34:19.060308",
  "modified_by": "Administrator",
  "module": "Algolia Sync",
  "name": "Carousel",
@@ -37,6 +37,5 @@
   }
  ],
  "sort_field": "modified",
- "sort_order": "DESC",
- "track_changes": 1
+ "sort_order": "DESC"
 }

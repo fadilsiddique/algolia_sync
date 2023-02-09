@@ -6,27 +6,49 @@
  "engine": "InnoDB",
  "field_order": [
   "name1",
-  "image"
+  "image",
+  "description",
+  "item",
+  "item_url"
  ],
  "fields": [
   {
    "fieldname": "name1",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Name",
+   "label": "Title",
+   "length": 45,
    "reqd": 1
   },
   {
    "fieldname": "image",
    "fieldtype": "Attach Image",
    "label": "Image"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item ",
+   "options": "Item"
+  },
+  {
+   "fetch_from": "item.website_url",
+   "fieldname": "item_url",
+   "fieldtype": "Data",
+   "label": "Item Url"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description",
+   "length": 75
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
  "max_attachments": 2,
- "modified": "2022-04-27 13:03:45.917781",
+ "modified": "2022-12-12 09:05:17.473386",
  "modified_by": "Administrator",
  "module": "Algolia Sync",
  "name": "Carousel Table",

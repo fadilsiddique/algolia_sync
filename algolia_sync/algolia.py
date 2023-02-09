@@ -2,11 +2,11 @@ from algoliasearch.search_client import SearchClient
 import frappe 
 import json
 
-client = SearchClient.create('NAH884LD6O','155ad86e58cb50ae7eefab00df3bc15d')
-index = client.init_index('zoomcartlive')
+# client = SearchClient.create('NAH884LD6O','155ad86e58cb50ae7eefab00df3bc15d')
+# index = client.init_index('zoomcartlive')
 
-# client = SearchClient.create('8AF7KWVKMG','ea7e8bb31e90edadcd63df48fc239f20')
-# index = client.init_index('dev_item')
+client = SearchClient.create('8AF7KWVKMG','ea7e8bb31e90edadcd63df48fc239f20')
+index = client.init_index('dev_item')
 
 
 
@@ -21,6 +21,7 @@ def send_algolia_item(doc,event):
     for i in items.attributes:
         attribute_list.append(i.attribute)
         value_list.append(i.attribute_value)
+    featured = items.featured_item_
     image1 = items.website_image_1
     image2 = items.website_image_2
     image3 = items.website_image_3
@@ -29,7 +30,7 @@ def send_algolia_item(doc,event):
     if web.published == 1:
         if items.has_variants == 0:
             records = {"item":items.item_name,"item_code":items.item_code,"Publish":items.published_in_website,"item_group":items.item_group,"Description":items.description,"Item_price":rate,"Image URL":[image1,image2,image3,image4],\
-            attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2], attribute_list[3]:value_list[3] ,"_tags":items.best_seller}
+            attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2], attribute_list[3]:value_list[3] ,"_tags":items.best_seller , "Featured":featured}
             send = index.save_object(records,  {'autoGenerateObjectIDIfNotExist': True})
         
             for ids in send:
@@ -62,6 +63,7 @@ def update_object(doc,event):
     item_name = item_doc.item_name
     item_code = item_doc.item_code
     item_group = item_doc.item_group
+    featured = item_doc.featured_item_
     image1 = item_doc.website_image_1
     image2 = item_doc.website_image_2
     image3 = item_doc.website_image_3
@@ -75,7 +77,7 @@ def update_object(doc,event):
         for pub in web:
             if pub["published"] == 1:
                 update_object = index.partial_update_object({"objectID":pub["algolia_id"],"item":item_name,"item_code":item_code,"Published":published,"item_group":item_group,"Description":description,"item_price":rate,\
-                "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller},{'createIfNotExists':False})
+                "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller , "Featured":featured},{'createIfNotExists':False})
     
 
   
@@ -90,6 +92,7 @@ def website_item(doc,event):
     image2 = item_doc.website_image_2
     image3 = item_doc.website_image_3
     image4 = item_doc.website_image_4
+    featured = item_doc.featured_item_
     Bestseller = item_doc.best_seller
     published = item_doc.published_in_website
     attribute_list=[]
@@ -100,7 +103,7 @@ def website_item(doc,event):
 
     if item_doc.has_variants == 0:
         records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"Published":published,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,\
-        "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller}
+        "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller,"Featured":featured}
    
    
         if web.published == 0:
@@ -124,6 +127,7 @@ def priceChange(doc,event):
     image2 = item_doc.website_image_2
     image3 = item_doc.website_image_3
     image4 = item_doc.website_image_4
+    featured = item_doc.featured_item_
     Bestseller = item_doc.best_seller
     published = item_doc.published_in_website
     attribute_list=[]
@@ -137,7 +141,7 @@ def priceChange(doc,event):
         for pub in web:
             if pub["published"] == 1:
                 update_object = index.partial_update_object({"objectID":pub["algolia_id"],"item":item_name,"item_code":item_code,"Published":published,"item_group":item_group,"Description":description,"item_price":rate,\
-                "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller},{'createIfNotExists':False})
+                "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller , "Featured":featured},{'createIfNotExists':False})
 
 
 
