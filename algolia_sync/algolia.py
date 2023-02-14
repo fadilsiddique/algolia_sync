@@ -26,11 +26,12 @@ def send_algolia_item(doc,event):
     image2 = items.website_image_2
     image3 = items.website_image_3
     image4 = items.website_image_4
+    url = items.website_url
     
     if web.published == 1:
         if items.has_variants == 0:
             records = {"item":items.item_name,"item_code":items.item_code,"Publish":items.published_in_website,"item_group":items.item_group,"Description":items.description,"Item_price":rate,"Image URL":[image1,image2,image3,image4],\
-            attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2], attribute_list[3]:value_list[3] ,"_tags":items.best_seller , "Featured":featured}
+            attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2], attribute_list[3]:value_list[3] ,"_tags":items.best_seller , "Featured":featured,"item_url":url}
             send = index.save_object(records,  {'autoGenerateObjectIDIfNotExist': True})
         
             for ids in send:
@@ -71,13 +72,15 @@ def update_object(doc,event):
     published = item_doc.published_in_website
     description = item_doc.description
     Bestseller = item_doc.best_seller
+    url = item_doc.website_url
+
 
     if item_doc.has_variants == 0:
         web = frappe.db.get_all('Website Item',filters={"item_name":item_doc.item_name},fields={"published","algolia_id"})
         for pub in web:
             if pub["published"] == 1:
                 update_object = index.partial_update_object({"objectID":pub["algolia_id"],"item":item_name,"item_code":item_code,"Published":published,"item_group":item_group,"Description":description,"item_price":rate,\
-                "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller , "Featured":featured},{'createIfNotExists':False})
+                "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller , "Featured":featured,"item_url":url},{'createIfNotExists':False})
     
 
   
@@ -95,6 +98,8 @@ def website_item(doc,event):
     featured = item_doc.featured_item_
     Bestseller = item_doc.best_seller
     published = item_doc.published_in_website
+    url = item_doc.website_url
+
     attribute_list=[]
     value_list=[]
     for i in item_doc.attributes:
@@ -103,7 +108,7 @@ def website_item(doc,event):
 
     if item_doc.has_variants == 0:
         records = {"objectID":algolia_id,"item":item_doc.item_name,"item_code":item_doc.item_code,"Published":published,"item_group":item_doc.item_group,"Description":item_doc.description,"item_price":rate,\
-        "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller,"Featured":featured}
+        "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller,"Featured":featured,"item_url":url}
    
    
         if web.published == 0:
@@ -130,6 +135,7 @@ def priceChange(doc,event):
     featured = item_doc.featured_item_
     Bestseller = item_doc.best_seller
     published = item_doc.published_in_website
+    url = item_doc.website_url
     attribute_list=[]
     value_list=[]
     for i in item_doc.attributes:
@@ -141,7 +147,7 @@ def priceChange(doc,event):
         for pub in web:
             if pub["published"] == 1:
                 update_object = index.partial_update_object({"objectID":pub["algolia_id"],"item":item_name,"item_code":item_code,"Published":published,"item_group":item_group,"Description":description,"item_price":rate,\
-                "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller , "Featured":featured},{'createIfNotExists':False})
+                "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller , "Featured":featured,"item_url":url},{'createIfNotExists':False})
 
 
 
