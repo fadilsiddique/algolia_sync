@@ -15,7 +15,7 @@ def address(email):
         link_name=i.link_name
 
         return address, link_name
-        # return address
+    # return address
     return address, link_name
 
 @frappe.whitelist()
@@ -77,6 +77,7 @@ def latest_items():
                                 )
     for web in web_item:
         items = frappe.db.get_list('Item',
+
                 filters={
                     'item_code':web["item_code"] ,
                     'has_variants':0
@@ -103,4 +104,9 @@ def Categories():
     for i in attributes:
         cat = frappe.get_doc('Item Attribute',i["name"])
         return cat.item_attribute_values
-    # return attributes
+  
+
+@frappe.whitelist()
+def customer_fetch(email):
+    customer_list = frappe.db.get_all('Customer',filters={"email":email},fields=["name"])
+    return customer_list
