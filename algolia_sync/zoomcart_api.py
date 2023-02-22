@@ -94,7 +94,10 @@ def latest_items():
 
 @frappe.whitelist()
 def Featured():
-    Items = frappe.db.get_all("Item",filters = {"featured_item_":1},fields=["item_name" , "item_code"])
+    Items = frappe.db.get_all("Item",filters = {"featured_item_":1},fields=["item_name" , "item_code", 'creation',
+                                                                            'website_image_1','website_image_2',
+                                                                            'website_image_3','website_image_4','best_seller'])
+        
     return Items
 
 
@@ -110,3 +113,5 @@ def Categories():
 def customer_fetch(email):
     customer_list = frappe.db.get_all('Customer',filters={"email":email},fields=["name"])
     return customer_list
+
+

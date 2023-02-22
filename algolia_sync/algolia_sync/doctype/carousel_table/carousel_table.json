@@ -9,7 +9,8 @@
   "image",
   "description",
   "item",
-  "item_url"
+  "item_url",
+  "item_name"
  ],
  "fields": [
   {
@@ -42,13 +43,19 @@
    "fieldtype": "Data",
    "label": "Description",
    "length": 75
+  },
+  {
+   "fetch_from": "item.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Item Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
  "max_attachments": 2,
- "modified": "2022-12-12 09:05:17.473386",
+ "modified": "2023-02-22 12:37:39.887110",
  "modified_by": "Administrator",
  "module": "Algolia Sync",
  "name": "Carousel Table",
