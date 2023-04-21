@@ -3,7 +3,8 @@ import frappe
 import json
 
 client = SearchClient.create('NAH884LD6O','155ad86e58cb50ae7eefab00df3bc15d')
-index = client.init_index('zoomcartlive')
+# index = client.init_index('zoomcartlive')
+index = client.init_index('zoomcartDev')
 
 # client = SearchClient.create('8AF7KWVKMG','ea7e8bb31e90edadcd63df48fc239f20')
 # index = client.init_index('dev_item')
