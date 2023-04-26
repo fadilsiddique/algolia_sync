@@ -1,6 +1,7 @@
 from algoliasearch.search_client import SearchClient 
 import frappe 
 import json
+import re
 
 client = SearchClient.create('NAH884LD6O','155ad86e58cb50ae7eefab00df3bc15d')
 # index = client.init_index('zoomcartlive')
@@ -153,4 +154,11 @@ def priceChange(doc,event):
 
 
 
-                
+# def item_url(doc,event):
+#     item_doc = frappe.get_doc('Item',doc.name)
+#     url = item_doc.website_url
+    # frappe.db.set_value(website_url,"Hai")
+    # url = item_doc.item_name
+    # item_doc.save()
+    # item_doc.website_url = re.sub(r"/", "", item_doc.item_name)
+    

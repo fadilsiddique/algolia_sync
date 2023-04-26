@@ -67,7 +67,7 @@ def latest_items():
     attribute_list = []
     price_list = []
     web_item = frappe.db.get_all('Website Item',
-                                                filters={'has_variants':0},
+                                                filters={'has_variants':0 , 'published':1},
                                                 fields={
                                                     'item_code'
                                                     },
@@ -94,11 +94,24 @@ def latest_items():
 
 @frappe.whitelist()
 def Featured():
-    Items = frappe.db.get_all("Item",filters = {"featured_item_":1},fields=["item_name" , "item_code", 'creation',
-                                                                            'website_image_1','website_image_2',
-                                                                            'website_image_3','website_image_4','best_seller'])
+    featured=[]
+    web_item = frappe.db.get_all('Website Item', filters={"published":1},fields=["item_code"])   
+
+    for web in web_item:
+        item = frappe.get_doc('Item',web["item_code"])
         
-    return Items
+        if item.featured_item_ == 1 :
+            featured.append({
+                    "Item Code" : item.item_code ,
+                    "Item Name" : item.item_name ,
+                    "Image 1"   : item.website_image_1 ,
+                    "Image 2"   : item.website_image_2 ,
+                    "Image 3"   : item.website_image_3 ,
+                    "Image 4"   : item.website_image_4 ,
+                    "Best Seller": item.best_seller
+                    })
+       
+    return featured
 
 
 @frappe.whitelist()

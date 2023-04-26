@@ -84,7 +84,7 @@ doc_events = {
     #       "before_submit":["algolia_sync.unpaid.unpaid_amt"]
     #   }
     "Item":{
-        # "after_insert":["algolia_sync.algolia.send_algolia"],
+        # "validate":["algolia_sync.algolia.item_url"],
         # "after_save":["algolia_sync.algolia.show_website"],
         # "on_trash":["algolia_sync.algolia.delete_object"],
         "on_update":["algolia_sync.algolia.update_object"]
