@@ -56,12 +56,12 @@
   "doctype": "Client Script",
   "dt": "Item",
   "enabled": 1,
-  "modified": "2022-12-08 14:39:09.670492",
+  "modified": "2023-04-27 14:14:45.915244",
   "name": "Item-Form",
   "parent": null,
   "parentfield": null,
   "parenttype": null,
-  "script": "frappe.ui.form.on('Item', {\n\tbefore_save:function(frm) {\n\t    console.log(\"hello\",cur_frm.doc.has_variants);\n\t\tif(cur_frm.doc.has_variants === 0){\n\t\t    if (cur_frm.doc.published_in_website === 0 ){\n\t\t       frappe.warn('Please Publish Item in Website',\n                     'Click the button to publish',\n                        () => {\n                        },\n                        'Continue',\n                        true \n                    );\n\t\t        }\n\t\t    }\n\t\tif (cur_frm.doc.has_variants === 1 ){\n            if(cur_frm.doc.attributes.length<4){\n                frappe.throw(\"Four attribute values needed\");\n\t        }\n\t\t}\n\t}\n});\n",
+  "script": "frappe.ui.form.on('Item', {\n\tbefore_save:function(frm) {\n\t\tif (cur_frm.doc.has_variants === 1 ){\n            if(cur_frm.doc.attributes.length<4){\n                frappe.throw(\"Four attribute values needed\");\n\t        }\n\t\t}\n\t   if (!frm.doc.website_url) {\n\t         // Create the website URL\n\t    frappe.call({\n\t        method : \"algolia_sync.zoomcart_api.item_url\" ,\n\t        args:{\n\t            name : frm.doc.item_name \n\t        },\n\t        callback:function(r){\n\t            console.log(r.message,\"Message\")\n\t           frm.doc.website_url = r.message;\n\t            console.log(frm.doc.website_url,\"URL\")\n\t        }\n\t    })\n\n\t}\n\t} ,\n\tvalidate: function(frm) {\n        // Validate the website URL\n        let value = frm.doc.website_url\n            if (value && !value.startsWith(\"/\")) {\n                msgprint('Website URL must start with a forward slash (/)');\n                validated = false\n            }\n            if (value && value.indexOf(\" \") !== -1){\n                 msgprint('Website URL should not contain spaces');\n                validated = false\n            }\n        if(cur_frm.doc.has_variants === 0){\n\t\t    if (cur_frm.doc.published_in_website === 0 ){\n\t\t       frappe.warn('To Publish Item in Website',\n                     'Click on \"Publish In webiste\" Button',\n                        () => {\n                        },\n                        'Continue',\n                        true \n                    );\n\t\t        }\n\t\t    }\n    }\n});\n",
   "view": "Form"
  },
  {

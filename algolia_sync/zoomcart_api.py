@@ -1,7 +1,8 @@
 import frappe
 import json
 import requests
-
+from frappe.utils import slug
+from frappe.model.meta import get_field_precision
 
 
 @frappe.whitelist()
@@ -102,13 +103,14 @@ def Featured():
         
         if item.featured_item_ == 1 :
             featured.append({
-                    "Item Code" : item.item_code ,
-                    "Item Name" : item.item_name ,
-                    "Image 1"   : item.website_image_1 ,
-                    "Image 2"   : item.website_image_2 ,
-                    "Image 3"   : item.website_image_3 ,
-                    "Image 4"   : item.website_image_4 ,
-                    "Best Seller": item.best_seller
+                    "item_code" : item.item_code ,
+                    "item_name" : item.item_name ,
+                    "website_image_1"   : item.website_image_1 ,
+                    "website_image_2"   : item.website_image_2 ,
+                    "website_image_3"   : item.website_image_3 ,
+                    "website_image_4"   : item.website_image_4 ,
+                    "best_seller": item.best_seller ,
+                    "creation"  : item.creation
                     })
        
     return featured
@@ -128,3 +130,14 @@ def customer_fetch(email):
     return customer_list
 
 
+@frappe.whitelist()
+def item_url(name):
+    
+    url = "/" + slug(name)
+
+    i = 0
+    while frappe.db.exists('Item',{"website_url": url}):
+        i += 1
+        suffix = "{:02d}".format(i)
+        url = "/" + slug("{}-{}".format(name,suffix))
+    return url

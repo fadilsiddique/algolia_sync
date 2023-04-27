@@ -1,7 +1,7 @@
 from algoliasearch.search_client import SearchClient 
 import frappe 
 import json
-import re
+
 
 client = SearchClient.create('NAH884LD6O','155ad86e58cb50ae7eefab00df3bc15d')
 # index = client.init_index('zoomcartlive')
@@ -11,7 +11,7 @@ index = client.init_index('zoomcartDev')
 # index = client.init_index('dev_item')
 
 
-
+#create algolia id and send list to alogolia search engine
 def send_algolia_item(doc,event):
     web = frappe.get_doc('Website Item',doc.name)
     items = frappe.get_doc('Item',web.item_code)
@@ -44,6 +44,7 @@ def send_algolia_item(doc,event):
 
 
 
+# Delete algolia id when deleting item from Zoomcart App
 def delete_object(doc,event):
     web_doc = frappe.get_doc('Website Item',doc.name)
     item_doc = frappe.get_doc('Item',web_doc.item_code)
@@ -53,6 +54,7 @@ def delete_object(doc,event):
 
 
 
+# Send updated details of Item in algolia
 def update_object(doc,event):
     item_doc = frappe.get_doc('Item',doc.name)
     price = frappe.get_doc('Item Price',item_doc.name)
@@ -85,7 +87,8 @@ def update_object(doc,event):
                 "Image URL":[image1,image2,image3,image4],attribute_list[0]:value_list[0],attribute_list[1]:value_list[1],attribute_list[2]:value_list[2],attribute_list[3]:value_list[3],"_tags":Bestseller , "Featured":featured,"item_url":url},{'createIfNotExists':False})
     
 
-  
+ 
+ # Publishing Unpublishing based on check field in Websitem Item List 
 def website_item(doc,event):
     web = frappe.get_doc('Website Item',doc.name)
     item_doc = frappe.get_doc('Item',web.item_code)
@@ -119,7 +122,8 @@ def website_item(doc,event):
         else:
             send = index.save_object(records)
 
-    
+
+# Send the records when item price changed    
 def priceChange(doc,event):
        
     price = frappe.get_doc('Item Price',doc.name)
@@ -153,12 +157,5 @@ def priceChange(doc,event):
 
 
 
-
-# def item_url(doc,event):
-#     item_doc = frappe.get_doc('Item',doc.name)
-#     url = item_doc.website_url
-    # frappe.db.set_value(website_url,"Hai")
-    # url = item_doc.item_name
-    # item_doc.save()
-    # item_doc.website_url = re.sub(r"/", "", item_doc.item_name)
+    
     
