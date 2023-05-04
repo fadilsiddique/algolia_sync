@@ -5,25 +5,35 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "data_1",
-  "attach_image_2"
+  "attach_image_2",
+  "link_3",
+  "data_4"
  ],
  "fields": [
   {
-   "fieldname": "data_1",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "reqd": 1
+   "fieldname": "attach_image_2",
+   "fieldtype": "Attach Image",
+   "label": "Image"
   },
   {
-   "fieldname": "attach_image_2",
-   "fieldtype": "Attach Image"
+   "fieldname": "link_3",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item",
+   "options": "Item"
+  },
+  {
+   "fetch_from": "link_3.website_url",
+   "fieldname": "data_4",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item url"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-04-20 09:29:06.698007",
+ "modified": "2023-05-03 12:03:14.977246",
  "modified_by": "Administrator",
  "module": "Algolia Sync",
  "name": "Latest Trend Child",

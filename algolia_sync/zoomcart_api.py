@@ -84,7 +84,7 @@ def latest_items():
                     'has_variants':0
                     },
             
-                fields=["item_code",'item_name','creation','website_image_1','website_image_2','website_image_3','website_image_4','best_seller'])
+                fields=["item_code",'item_name','creation','website_image_1','website_image_2','website_image_3','website_image_4','best_seller','website_url'])
         
 
         price = frappe.get_doc('Item Price',web.item_code)
@@ -110,6 +110,7 @@ def Featured():
                     "website_image_3"   : item.website_image_3 ,
                     "website_image_4"   : item.website_image_4 ,
                     "best_seller": item.best_seller ,
+                    "website_url"  :   item.website_url
                     "creation"  : item.creation
                     })
        
